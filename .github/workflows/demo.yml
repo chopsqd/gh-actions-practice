@@ -3,9 +3,9 @@ name: Demo Workflow
 # Какое событие слушаем
 # workflow_dispatch - будем запускать workflow в ручном режиме
 on: workflow_dispatch
-# Набор задач 
-jobs: 
-  # Название задачи 
+# Набор задач
+jobs:
+  # Название задачи
   print:
     # На какой платформе запускается workflow
     runs-on: windows-latest
