@@ -1,0 +1,25 @@
+# Название
+name: Test React App
+# Какое событие слушаем
+# push - будем запускать workflow при push в репозиторий
+on: push
+# Список задач
+jobs:
+  # Название задачи
+  test:
+    # На какой платформе запускается workflow
+    runs-on: windows-latest
+    # Шаг задачи
+    steps:
+      # Название шага
+      - name: Get the repository code
+        # uses - используем готовый action из Marketplace
+        uses: actions/checkout@v4
+        # Название шага
+      - name: Install dependencies
+        # При установке пакетов лучше использовать npm ci
+        run: npm ci
+        # Название шага
+      - name: Test application
+        # Запускаем скрипт
+        run: npm run test
