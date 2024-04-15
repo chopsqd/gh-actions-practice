@@ -1,5 +1,14 @@
 name: Deploy React App
-on: push
+on:
+  push:
+    # Фильтруем по веткам
+    branches:
+      # Сработает только если заливаем в master
+      - master
+    # Делаем запуск workflow реже
+    paths-ignore:
+      # Не реагируй, если что-то меняется в workflow
+      - '.github/workflows/*'
 jobs:
   deploy:
     runs-on: windows-latest
