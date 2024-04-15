@@ -1,0 +1,34 @@
+name: Build & Deploy
+on: [workflow_dispatch, push]
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+      - name: Get the repository code
+        uses: actions/checkout@v4
+      - name: Install dependencies
+        run: npm ci
+      - name: Build application
+        run: npm run build
+        # artifact - статические файлы, папки и т.д.
+      - name: Upload artifact
+        # Используем готовый action из Marketplace
+        uses: actions/upload-artifact@v4
+        # Указываем параметры
+        with:
+          # В каком месте нужно искать, что нужно загрузить в artifact
+          # path: папка build
+          path: build
+          # Указываем как artifact будет называться
+          name: build-files
+  deploy:
+    needs: build
+    runs-on: windows-latest
+    steps:
+      - name: Get build project
+        # Используем готовый action из Marketplace
+        uses: actions/download-artifact@v4
+        # Указываем параметры
+        with:
+          # Указываем название artifact, которые загрузили
+          name: build-files
