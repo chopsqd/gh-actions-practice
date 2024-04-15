@@ -36,11 +36,30 @@ jobs:
       - name: Lint application
         run: npm run lint
   build:
-    runs-on: windows-latest
     needs: [lint, test]
+    # continue-on-error -> Продолжи исполнение, даже если есть ошибки
+    # continue-on-error: true
+    # Проверяем как работает проект на различных системах
+    strategy:
+      # Создаем матрицу
+      matrix:
+        # Задаем переменные (называем как угодно)
+        node-version: [14, 16]
+        os: [ubuntu-latest, windows-latest]
+    # Используем переменную os
+    # Будет прогонять проект через каждое из значений в os
+    runs-on: ${{ matrix.os }}
     steps:
       - name: Get the repository code
         uses: actions/checkout@v4
+        # Название шага
+      - name: Install NodeJS
+        # Используя готовый action из Actions Marketplace
+        uses: actions/setup-node@v4
+        # Настраиваем NodeJS вручную
+        with:
+          # Используем переменную node-version
+          node-version: ${{ matrix.node-version }}
       - name: Cache deps
         uses: actions/cache@v4
         with:
